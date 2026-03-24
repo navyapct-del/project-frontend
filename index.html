@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Showcase</title>
+</head>
+<body>
+ 
+<h1>Project Showcase</h1>
+ 
+<input type="text" id="search" placeholder="Search projects..." onkeyup="searchProjects()">
+ 
+<div id="projects"></div>
+ 
+<script>
+const API_URL = "https://project-api-navya-gfdgaugehna5faeb.westus-01.azurewebsites.net/api/getProjectsHttpTrigger1";
+ 
+let allProjects = [];
+ 
+async function loadProjects() {
+    const res = await fetch(API_URL);
+    const data = await res.json();
+    allProjects = data;
+    displayProjects(data);
+}
+ 
+function displayProjects(projects) {
+    const container = document.getElementById("projects");
+    container.innerHTML = "";
+ 
+    projects.forEach(p => {
+        container.innerHTML += `
+            <div style="border:1px solid black; margin:10px; padding:10px;">
+                <h3>${p.name}</h3>
+                <p>${p.description}</p>
+                <button onclick="viewDetails(${p.id})">Know More</button>
+            </div>
+        `;
+    });
+}
+ 
+function searchProjects() {
+    const keyword = document.getElementById("search").value.toLowerCase();
+    const filtered = allProjects.filter(p => p.name.toLowerCase().includes(keyword));
+    displayProjects(filtered);
+}
+ 
+function viewDetails(id) {
+    window.location.href = "details.html?id=" + id;
+}
+ 
+loadProjects();
+</script>
+ 
+</body>
+</html>
