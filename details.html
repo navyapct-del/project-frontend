@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Details</title>
+</head>
+<body>
+ 
+<h1>Project Details</h1>
+ 
+<div id="details"></div>
+ 
+<script>
+const API_URL = "https://project-api-navya-gfdgaugehna5faeb.westus-01.azurewebsites.net/api/getProjectsHttpTrigger1";
+ 
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+ 
+async function loadDetails() {
+    const res = await fetch(API_URL + "?id=" + id);
+    const data = await res.json();
+ 
+    document.getElementById("details").innerHTML = `
+        <h2>${data.name}</h2>
+        <p>${data.description}</p>
+        <p><b>Industry:</b> ${data.industry}</p>
+    `;
+}
+ 
+loadDetails();
+</script>
+ 
+</body>
+</html>
+ 
